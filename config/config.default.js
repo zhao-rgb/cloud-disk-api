@@ -54,6 +54,10 @@ module.exports = appInfo => {
       underscored: true,
     },
   };
+  config.valparams = {
+    locale: 'zh-cn',
+    throwError: true,
+  };
 
   // add your user config here
   const userConfig = {
