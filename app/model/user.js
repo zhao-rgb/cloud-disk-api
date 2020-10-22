@@ -1,4 +1,7 @@
 'use strict';
+
+// 引入
+const crypto = require('crypto');
 module.exports = app => {
   const { STRING, INTEGER, DATE, ENUM, TEXT } = app.Sequelize;
 
@@ -32,6 +35,11 @@ module.exports = app => {
       allowNull: false,
       defaultValue: '',
       comment: '密码',
+      set(val) {
+        const hmac = crypto.createHash('sha256', app.config.crypto.secret);
+        hmac.update(val);
+        this.setDataValue('password', hmac.digest('hex'));
+      },
     },
     avatar: {
       type: STRING,

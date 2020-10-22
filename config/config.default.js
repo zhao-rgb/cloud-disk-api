@@ -10,7 +10,7 @@ module.exports = appInfo => {
    * built-in config
    * @type {Egg.EggAppConfig}
    **/
-  const config = exports = {};
+  const config = (exports = {});
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1603347170711_6611';
@@ -57,6 +57,9 @@ module.exports = appInfo => {
   config.valparams = {
     locale: 'zh-cn',
     throwError: true,
+  };
+  config.crypto = {
+    secret: 'qhdgw@45ncashdaksh2!#@3nxjdas*_672',
   };
 
   // add your user config here
