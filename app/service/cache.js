@@ -53,6 +53,7 @@ class CacheService extends Service {
       return await redis.set(key, JSON.stringify(value));
     }
     return await redis.set(key, JSON.stringify(value), 'EX', expir);
+
   }
 
   /**
@@ -78,6 +79,7 @@ class CacheService extends Service {
       return await redis.incr(key);
     }
     return await redis.incrby(key, number);
+
   }
 
   /**
