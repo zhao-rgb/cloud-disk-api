@@ -26,4 +26,11 @@ module.exports = {
     const pat_phone = /ipad|iphone os|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/;
     return pat_phone.test(userAgent);
   },
+  // 生成唯一idgenID(length)
+  // eslint-disable-next-line no-dupe-keys
+  genID(length) {
+    return Number(
+      Math.random().toString().substr(3, length) + Date.now()
+    ).toString(36);
+  },
 };
