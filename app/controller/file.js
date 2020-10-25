@@ -27,22 +27,41 @@ class FileController extends Controller {
       },
     });
 
-    const file_id = ctx.query.file_id;
-    console.log(file_id + '<<<<<<<<<<');
-    // 目录id是否存在
-    if (file_id > 0) {
-      // 目录是否存在
-      await service.file.isDirExist(file_id);
-    }
     // 取得上传的文件
     const file = ctx.request.files[0];
 
+    const file_id = ctx.query.file_id;
+    console.log(file_id + '<<<<<<<<<<');
 
+    // 处理传非根目录的情况
+    let prefixPath = '';
     // 根据file_id一直向上找到顶层目录
-    const prefixPath = await service.file.seachDir(file_id);
-    console.log(prefixPath);
+    if (file_id > 0) {
+      prefixPath = await service.file.seachDir(file_id);
+      console.log(prefixPath);
+    }
+    // 处理传根目录的情况
+    if (file_id === 0) {
+      prefixPath = '/';
+    }
+
     // 拼接出最终文件上传目录
     const name = prefixPath + ctx.genID(10) + path.extname(file.filename);
+
+    // // 目录id是否存在
+    // if (file_id > 0) {
+    //   // 目录是否存在
+    //   await service.file.isDirExist(file_id);
+    // }
+    // // 取得上传的文件
+    // const file = ctx.request.files[0];
+
+
+    // // 根据file_id一直向上找到顶层目录
+    // const prefixPath = await service.file.seachDir(file_id);
+    // console.log(prefixPath);
+    // // 拼接出最终文件上传目录
+    // const name = prefixPath + ctx.genID(10) + path.extname(file.filename);
 
 
     // 判断用户网盘内存是否不足
@@ -76,7 +95,7 @@ class FileController extends Controller {
         user_id: currentUser.id,
         size: parseInt(s),
         isdir: 0,
-        url: result.url,
+        url: result.url.replace('http', 'https'),
       };
       const res = await app.model.File.create(addData);
 
